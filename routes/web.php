@@ -10,5 +10,5 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/tasks', [AppController::class, 'index']);
 $router->get('/api/tasks', [TaskApiController::class, 'index']);
 $router->get('/tasks{id}', [AppController::class, 'show']);
-$router->post('/tasks', [AppController::class, 'create']);
-$router->patch('/tasks', [AppController::class, 'updateStatus']);
+$router->post('/api/tasks', [TaskApiController::class, 'create']);
+$router->patch('/api/tasks', [TaskApiController::class, 'updateStatus']);

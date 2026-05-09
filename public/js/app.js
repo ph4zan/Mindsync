@@ -9,7 +9,7 @@ async function init() {
 // Загрузка первых данных
 async function loadInitialData() {
   const status = getStatusFromUrl();
-  const res = await fetch("/tasks?status=" + status, {
+  const res = await fetch("api/tasks?status=" + status, {
     headers: {
       "X-Requested-With": "XMLHttpRequest",
     },
@@ -24,7 +24,7 @@ async function loadInitialData() {
 async function loadData(status) {
   history.pushState(null, "", "?status=" + status);
 
-  const res = await fetch("/tasks?status=" + status, {
+  const res = await fetch("api/tasks?status=" + status, {
     headers: {
       "X-Requested-With": "XMLHttpRequest",
     },
@@ -147,7 +147,7 @@ async function handleToggle(e) {
 
   const status = e.target.checked ? "completed" : "pending";
 
-  const res = await fetch(`/tasks`, {
+  const res = await fetch(`api/tasks`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -170,7 +170,7 @@ async function handleSubmit(e) {
     'textarea[name="description"]'
   );
 
-  const res = await fetch("/tasks", {
+  const res = await fetch("api/tasks", {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify({
