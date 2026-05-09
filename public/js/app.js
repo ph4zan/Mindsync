@@ -50,10 +50,9 @@ function renderTasks(data = []) {
     .map(
       (task) => `
     <li data-id="${task.id}" data-status="${task.status}">
-      <label>
         <input type="checkbox" class="todo-check" autocomplete="off">
-        ${task.title}
-      </label>
+        <span class="todo-text">${task.title}</span>
+        <div class="todo-actions"></div>
     </li>
   `
     )
@@ -65,7 +64,6 @@ function renderPageUI(status) {
 
   let html = "";
 
-  
   if (status === "active") {
     html = `
       <h1>My tasks</h1>
@@ -140,12 +138,13 @@ function toggleInput(status) {
 }
 
 async function handleToggle(e) {
-  if (!e.target.classList.contains("todo-check")) return;
+  if (!(e.target instanceof HTMLInputElement) || e.target.type !== "checkbox")
+    return;
 
   const li = e.target.closest("li");
   const id = li.dataset.id;
 
-  const status = e.target.checked ? "completed" : "pending";
+  const status = e.target.checked ? "completed" : "active";
 
   const res = await fetch(`api/tasks`, {
     method: "PATCH",
@@ -183,10 +182,8 @@ async function handleSubmit(e) {
 
   const li = document.createElement("li");
   li.innerHTML = `
-                    <label>
                 <input type="checkbox" class="todo-check">
                   ${data.title}
-                </label>
         `;
 
   li.dataset.id = data.id;
@@ -197,10 +194,5 @@ async function handleSubmit(e) {
 }
 
 function toggleSidebar() {
-  const sidebar = document.querySelector(".sidebar");
-  if (sidebar.classList.contains("mini")) {
-    sidebar.classList.remove("mini");
-  } else {
-    sidebar.classList.add("mini");
-  }
+  document.querySelector(".sidebar").classList.toggle("mini");
 }
